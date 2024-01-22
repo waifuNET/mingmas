@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class oreSpawner : MonoBehaviour
 {
@@ -25,6 +26,22 @@ public class oreSpawner : MonoBehaviour
 
     public GameObject oreParent;
 
+    /// <summary>
+    /// Debug только во время разработки
+    /// </summary>
+    public bool Debug = true;
+    private List<GizmosSpehere> gizmosSpehereList = new List<GizmosSpehere>();
+	private struct GizmosSpehere
+    {
+        public Vector3 position;
+        public float radius;
+
+		public GizmosSpehere(Vector3 position, float radius) : this()
+		{
+			this.position = position;
+			this.radius = radius;
+		}
+	}
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +63,16 @@ public class oreSpawner : MonoBehaviour
         }
     }
 
-    void spawnOre()
+	private void OnDrawGizmos()
+	{
+        if(Debug)
+		for (int i = 0; i < gizmosSpehereList.Count; i++)
+		{
+			Gizmos.DrawWireSphere(gizmosSpehereList[i].position, gizmosSpehereList[i].radius);
+		}
+	}
+
+	void spawnOre()
     {
         float randomX = Random.Range(
             startOreSpawnPos.transform.position.x,
@@ -63,7 +89,23 @@ public class oreSpawner : MonoBehaviour
 
         GameObject ore = Instantiate(ores[Random.Range(0,ores.Count-1)],new Vector3(randomX,0,randomZ),Quaternion.identity);
         ore.transform.SetParent(oreParent.transform);
-        spawningOre.Add(ore);
+
+		Collider[] hitColliders = Physics.OverlapSphere(ore.transform.position,
+            ore.GetComponent<ore>().oreSize);
+		foreach (var hitCollider in hitColliders)
+		{
+			if(hitCollider.gameObject != ore.gameObject && hitCollider.gameObject.tag == "ore")
+            {
+                Destroy(ore);
+                return;
+			}
+		}
+
+		spawningOre.Add(ore);
+
+        if(Debug)
+            gizmosSpehereList.Add(new GizmosSpehere(ore.transform.position, ore.GetComponent<ore>().oreSize));
+
     }
 
     public void oreRemove(GameObject ore)
