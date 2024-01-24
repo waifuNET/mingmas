@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -111,5 +112,6 @@ public class oreSpawner : MonoBehaviour
     public void oreRemove(GameObject ore)
     {
         spawningOre.Remove(ore);
+        Destroy(ore);
     }
 }

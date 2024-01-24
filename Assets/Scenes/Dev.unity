@@ -170,19 +170,8 @@ MonoBehaviour:
   currentPocket: 0
   maxPocket: 10
   defaultMiningTime: 0
-  ore: {fileID: 0}
---- !u!114 &131676223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131676218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be1d938b0fa1ab04e90064dba0f9f3bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _ore: {fileID: 0}
+  readyToMiningFlag: 0
 --- !u!1 &377261593
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,10 +895,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 131676222}
-    - targetCorrespondingSourceObject: {fileID: 6454127380093350245, guid: 7a3e76d3ba476dc43adbe00faa26df0d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 131676223}
   m_SourcePrefab: {fileID: 100100000, guid: 7a3e76d3ba476dc43adbe00faa26df0d, type: 3}
 --- !u!1001 &1997162854
 PrefabInstance:

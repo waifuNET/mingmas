@@ -23,6 +23,7 @@ public class ore : MonoBehaviour
 
     public void oreWasting(int oreMiningCount)
     {
+        Debug.Log("try deleting");
         oreDepositCount -= oreMiningCount;
         if (oreDepositCount <= 0)
         {
@@ -33,7 +34,7 @@ public class ore : MonoBehaviour
     public void Init()
     {
         oreMiningTime = Random.Range(oreMiningTime, oreMiningTime + 1f);
-        oreDepositCount = Random.Range(oreDepositCount, oreDepositCount + 15);
+        oreDepositCount = Random.Range(oreDepositCount+100, oreDepositCount + 150);
     }
 
     // Start is called before the first frame update

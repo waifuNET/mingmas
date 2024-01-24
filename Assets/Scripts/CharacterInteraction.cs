@@ -14,16 +14,20 @@ public class CharacterInteraction : MonoBehaviour
     public int maxPocket = 10;
     public float defaultMiningTime;
 
-    public ore ore;
+    public ore _ore;
 
     GameObject oreTarget;
+
+    [SerializeField]
+    private bool readyToMiningFlag;
 
     float realMinigTime;
 
     void Start()
     {
         miner = GetComponent<NavMeshAgent>();
-        
+        oreTarget = null;
+        readyToMiningFlag = false;
     }
 
     // Update is called once per frame
@@ -37,20 +41,20 @@ public class CharacterInteraction : MonoBehaviour
             {
                 oreTarget = spawner.spawningOre[Random.Range(0, spawner.spawningOre.Count - 1)];
                 miner.SetDestination(oreTarget.transform.position);
+                _ore = oreTarget.GetComponent<ore>();
+                readyToMiningFlag = true;
                 //miner.stoppingDistance = oreTarget.GetComponent<ore>().oreSize * 1.3f;
             }
         }
-        if (oreTarget != null)
+        if (oreTarget != null && readyToMiningFlag == true)
         {
-            if (miner.remainingDistance<= oreTarget.GetComponent<ore>().oreSize * 1.3f)
+            Debug.Log(oreTarget);
+            if (miner.remainingDistance <= oreTarget.GetComponent<ore>().oreSize * 1.3f && miner.isStopped == false)
             {
                 miner.isStopped = true;
-                ore.oreWasting(10); // не работает
+                _ore.oreWasting(10);
             }
-            //if (miner.isStopped && currentPocket < maxPocket && oreTarget != null)
-            //{
-            //    Debug.Log("Mining");
-            //}
+            
         }
         
     }
