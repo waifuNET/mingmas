@@ -5,17 +5,13 @@ using UnityEngine;
 public class ore : MonoBehaviour
 {
     //Ore mining index
-    public float rockMiningIndex = 1;
-    public float copperMiningIndex = 2;
-    public float ironMiningIndex = 3;
-    public float goldMiningIndex = 4;
-    public float titanumMiningIndex = 5;
-    public float diamondMiningIndex = 6;
-    public float crystallsMiningIndex = 10;
+    public float timeMiningIndex = 1;
 
     public float oreSize;
     public float oreMiningTime;
     public int oreDepositCount;
+
+
 
     public oreSpawner oreSpawner;
 
@@ -23,7 +19,6 @@ public class ore : MonoBehaviour
 
     public void oreWasting(int oreMiningCount)
     {
-        Debug.Log("try deleting");
         oreDepositCount -= oreMiningCount;
         if (oreDepositCount <= 0)
         {

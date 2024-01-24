@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[System.Serializable]
+public struct OreType
+{
+    public int oreCount;
+    public oreType oreName;
+
+    public OreType(int oreCount, oreType oreName) : this()
+    {
+        this.oreCount = oreCount;
+        this.oreName = oreName;
+    }
+}
 public class UIOreMining : MonoBehaviour
 {
     
-    [System.Serializable]
-    public struct OreType
-    {
-        public int oreCount;
-        public oreType oreName;
-
-        public OreType(int oreCount, oreType oreName) : this()
-        {
-            this.oreCount = oreCount;
-            this.oreName = oreName;
-        }
-    }
+    
     
     private List<OreType> oreList = new List<OreType>()
     {

@@ -99,6 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10fe591fa2f2b948b7a99d7b2c7c904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rockMiningIndex: 1
+  copperMiningIndex: 2
+  ironMiningIndex: 3
+  goldMiningIndex: 4
+  titanumMiningIndex: 5
+  diamondMiningIndex: 6
+  crystallsMiningIndex: 10
   oreSize: 4.5
   oreMiningTime: 5
   oreDepositCount: 5
