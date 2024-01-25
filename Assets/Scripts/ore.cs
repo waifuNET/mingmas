@@ -11,8 +11,6 @@ public class ore : MonoBehaviour
     public float oreMiningTime;
     public int oreDepositCount;
 
-
-
     public oreSpawner oreSpawner;
 
     public oreType oreSpecie;

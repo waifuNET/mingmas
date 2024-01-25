@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum CharacterStatus
+{
+    Idle = 0,
+    WalkOre = 1,
+    Mining = 2,
+	Unloading = 3,
+	WalkUnloading = 4
+}
+
 public class CharacterInteraction : MonoBehaviour
 {
     //List<> = new List<>;
@@ -21,70 +30,151 @@ public class CharacterInteraction : MonoBehaviour
 
     Vector3 storageTarget;
 
-    [SerializeField]
-    private bool readyToMiningFlag;
-
     float rockMinigTime;
     float _rockMiningTime;
 
     int characterOreMiningCount = 10;
 
+    public CharacterStatus characterStatus = CharacterStatus.Idle;
 
-    public Dictionary<oreType,int> characterInventory = new Dictionary<oreType,int>();
+
+    public Dictionary<oreType, int> characterInventory = new Dictionary<oreType, int>();
 
 
     void Start()
     {
         miner = GetComponent<NavMeshAgent>();
         oreTarget = null;
-        readyToMiningFlag = false;
         _rockMiningTime = rockMinigTime;
+
+		characterStatus = CharacterStatus.Idle;
+	}
+
+    public bool TargetExist()
+    {
+        if (oreTarget == null) return false;
+        else return true;
     }
 
-    
-
-    // Update is called once per frame
-    void Update()
+    public bool InvetoryFull()
     {
-        Mining();
+        if (currentPocket < maxPocket) return false;
+        else return true;
+    }
+
+    public bool Arrived()
+    {
+        if (miner.remainingDistance <= miner.stoppingDistance) return true;
+        else return false;
+    }
+
+    public bool GetOre()
+    {
+        oreTarget = null;
+        _ore = null;
+
+		if (spawner.spawningOre.Count == 0) return false;
+
+        oreTarget = spawner.spawningOre[Random.Range(0, spawner.spawningOre.Count - 1)];
+        if(oreTarget == null) return false;
+
+        _ore = oreTarget.GetComponent<ore>();
+		if (_ore == null) return false;
+
+		rockMinigTime = defaultMiningTime * _ore.timeMiningIndex;
+        return false;
+    }
+
+    public void GoToOre()
+    {
+        if (oreTarget == null) return;
+
+        CharacterSetDestination(oreTarget.transform.position, _ore.oreSize * 1.3f);
+    }
+
+    public void GoToUnloading()
+    {
+        CharacterSetDestination(Dumper.transform.position, 4);
+    }
+
+    public void CharacterSetDestination(Vector3 point, float stopDistance)
+    {
+        miner.destination = point;
+        miner.stoppingDistance = stopDistance;
+    }
+
+    public void UnloadingPoket() // реализовать, что бы добовлял в склад
+    {
+        currentPocket = 0;
+        characterInventory.Clear();
+    }
+
+	// Update is called once per frame
+	void FixedUpdate()
+    {
+        switch (characterStatus)
+        {
+            case CharacterStatus.Idle:
+                if (TargetExist())
+                {
+                     GoToOre();
+                     characterStatus = CharacterStatus.WalkOre;
+                }
+                else if (!TargetExist())
+                {
+                    GetOre();
+                }
+                else if (!InvetoryFull())
+                {
+                    if (TargetExist())
+                    {
+                        GoToOre();
+                        characterStatus = CharacterStatus.WalkOre;
+                    }
+                }
+                else if (InvetoryFull())
+                {
+                    characterStatus = CharacterStatus.WalkUnloading;
+                }
+                break;
+            case CharacterStatus.WalkOre:
+                if (Arrived())
+                {
+                    characterStatus = CharacterStatus.Mining;
+                }
+                break;
+            case CharacterStatus.Mining:
+                Mining();
+                break;
+            case CharacterStatus.WalkUnloading:
+                if (Arrived())
+                {
+                    characterStatus = CharacterStatus.Unloading;
+				}
+                break;
+            case CharacterStatus.Unloading:
+				UnloadingPoket();
+				characterStatus = CharacterStatus.Idle;
+				break;
+        }
+        //Mining();
+
         //GoToStorage();
     }
 
     void Mining()
     {
-        if (oreTarget == null)
+        if (InvetoryFull()) { characterStatus = CharacterStatus.WalkUnloading; GoToUnloading(); return; }
+
+        rockMinigTime -= Time.deltaTime;
+        if (rockMinigTime <= 0)
         {
-            readyToMiningFlag = false;
-        }
-        if (!readyToMiningFlag)
-        {
-            if (spawner.spawningOre.Count > 0)
-            {
-                oreTarget = spawner.spawningOre[Random.Range(0, spawner.spawningOre.Count - 1)];
-                miner.destination = oreTarget.transform.position;
-                _ore = oreTarget.GetComponent<ore>();
-                rockMinigTime = defaultMiningTime * _ore.timeMiningIndex;
-                readyToMiningFlag = true;
-                miner.stoppingDistance = _ore.oreSize * 1.3f;
-            }
-        }
-        if (readyToMiningFlag)
-        {
-            if (currentPocket <= maxPocket)
-            {
-                if (miner.remainingDistance <= miner.stoppingDistance && !miner.isStopped)
-                {
-                    rockMinigTime -= Time.deltaTime;
-                    if (rockMinigTime <= 0)
-                    {
-                        AddToCharacterInventory();
-                        rockMinigTime = _rockMiningTime;
-                    }
-                }
-            }
+            AddToCharacterInventory();
+            rockMinigTime = _rockMiningTime;
         }
     }
-    private void AddToCharacterInventory()
+
+    void AddToCharacterInventory()
     {
         if (characterInventory.ContainsKey(_ore.oreSpecie))
         {
@@ -96,6 +186,10 @@ public class CharacterInteraction : MonoBehaviour
             characterInventory.Add(_ore.oreSpecie, characterOreMiningCount);
         }
         _ore.oreWasting(characterOreMiningCount);
+        if(_ore.oreDepositCount <= 0)
+        {
+            characterStatus = CharacterStatus.Idle;
+        }
         currentPocket += characterOreMiningCount;
     }
 
