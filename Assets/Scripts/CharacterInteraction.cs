@@ -37,9 +37,23 @@ public class CharacterInteraction : MonoBehaviour
 
     public CharacterStatus characterStatus = CharacterStatus.Idle;
 
+    public UIOreMining _UIOreMining;
+    public oreType _oreType;
+    
 
     public Dictionary<oreType, int> characterInventory = new Dictionary<oreType, int>();
 
+    public void AddToStorage()
+    {
+        for(int i= 0;i<_UIOreMining.oreList.Count;i++)
+        {
+            oreType tempOreType = _UIOreMining.oreList[i].oreName;
+            if(characterInventory.TryGetValue(tempOreType, out int value))
+            {
+                _UIOreMining.oreList[i] = new OreTypeStruct(_UIOreMining.oreList[i].oreCount+value,tempOreType);
+            }
+        }    
+    }
 
     void Start()
     {
@@ -105,6 +119,7 @@ public class CharacterInteraction : MonoBehaviour
 
     public void UnloadingPoket() // реализовать, что бы добовлял в склад
     {
+        AddToStorage();
         currentPocket = 0;
         characterInventory.Clear();
     }
@@ -157,9 +172,6 @@ public class CharacterInteraction : MonoBehaviour
 				characterStatus = CharacterStatus.Idle;
 				break;
         }
-        //Mining();
-
-        //GoToStorage();
     }
 
     void Mining()

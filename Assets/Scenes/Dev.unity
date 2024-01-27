@@ -926,6 +926,8 @@ MonoBehaviour:
   _ore: {fileID: 0}
   Dumper: {fileID: 1328588886}
   characterStatus: 0
+  _UIOreMining: {fileID: 377261597}
+  _oreType: 0
 --- !u!1001 &133684429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2921,6 +2923,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab028dc2866fa9a4b84d391f9cd7129d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oreList:
+  - oreCount: 0
+    oreName: 0
+  - oreCount: 0
+    oreName: 1
+  - oreCount: 0
+    oreName: 2
+  - oreCount: 0
+    oreName: 3
+  - oreCount: 0
+    oreName: 4
+  - oreCount: 0
+    oreName: 5
+  - oreCount: 0
+    oreName: 6
   textOreCounterUGUI: {fileID: 377261595}
 --- !u!4 &379330472 stripped
 Transform:
