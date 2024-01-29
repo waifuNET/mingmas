@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 9f61877285d60eb4dbf9754541bb6b98
+timeCreated: 1574079494
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 157920
+  packageName: Villager Animations FREE
+  packageVersion: 1.1
+  assetPath: Assets/Kevin Iglesias/Villager Animations/AnimatorControllers/VillagerFREE@Fishing.controller
+  uploadId: 419738

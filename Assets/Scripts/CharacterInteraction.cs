@@ -43,6 +43,8 @@ public class CharacterInteraction : MonoBehaviour
 
     public Dictionary<oreType, int> characterInventory = new Dictionary<oreType, int>();
 
+    public Animator animator;
+
     public void AddToStorage()
     {
         for(int i= 0;i<_UIOreMining.oreList.Count;i++)
@@ -60,8 +62,8 @@ public class CharacterInteraction : MonoBehaviour
         miner = GetComponent<NavMeshAgent>();
         oreTarget = null;
         _rockMiningTime = rockMinigTime;
-
 		characterStatus = CharacterStatus.Idle;
+        animator = GetComponent<Animator>();
 	}
 
     public bool TargetExist()
@@ -130,6 +132,7 @@ public class CharacterInteraction : MonoBehaviour
         switch (characterStatus)
         {
             case CharacterStatus.Idle:
+                ResetAllTriggers("Idle");
                 if (TargetExist())
                 {
                      GoToOre();
@@ -153,15 +156,20 @@ public class CharacterInteraction : MonoBehaviour
                 }
                 break;
             case CharacterStatus.WalkOre:
+                ResetAllTriggers("Walking");
                 if (Arrived())
                 {
                     characterStatus = CharacterStatus.Mining;
                 }
                 break;
             case CharacterStatus.Mining:
+                ResetAllTriggers("Mining");
+                animator.SetTrigger("Mining");
                 Mining();
                 break;
             case CharacterStatus.WalkUnloading:
+                ResetAllTriggers("Walking");
+
                 if (Arrived())
                 {
                     characterStatus = CharacterStatus.Unloading;
@@ -205,21 +213,17 @@ public class CharacterInteraction : MonoBehaviour
         currentPocket += characterOreMiningCount;
     }
 
-
-    /*void GoToStorage()
+    private List <string> AnimationList = new List <string>()
     {
-        if(currentPocket>=maxPocket)
+        "Mining","Idle","Walking"
+    };
+    void ResetAllTriggers(string nameAnimations)
+    {
+        foreach(var item in AnimationList)
         {
-            oreTarget = null;
-            storageTarget = Dumper.transform.position;
-            miner.destination = storageTarget;
-            miner.stoppingDistance = 4;
-            if(miner.remainingDistance <= miner.stoppingDistance)
-            {
-                currentPocket = 0;
-            }
+            animator.ResetTrigger(item);
         }
+        animator.SetTrigger(nameAnimations);
     }
-    */
 }
 
