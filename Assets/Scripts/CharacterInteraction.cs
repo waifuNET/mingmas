@@ -74,7 +74,7 @@ public class CharacterInteraction : MonoBehaviour
 
     public bool InvetoryFull()
     {
-        if (currentPocket < maxPocket) return false;
+        if (currentPocket <= maxPocket) return false;
         else return true;
     }
 

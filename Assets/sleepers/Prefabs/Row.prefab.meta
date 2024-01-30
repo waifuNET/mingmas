@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 124e105039673654384ba4ab56f3296f
+timeCreated: 1500003414
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95855
+  packageName: Railway sleepers
+  packageVersion: 1.0
+  assetPath: Assets/sleepers/Prefabs/Row.prefab
+  uploadId: 194398

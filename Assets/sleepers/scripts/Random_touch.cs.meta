@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 9e47190e9ec314042be4efd508d126b3
+timeCreated: 1500019071
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95855
+  packageName: Railway sleepers
+  packageVersion: 1.0
+  assetPath: Assets/sleepers/scripts/Random_touch.cs
+  uploadId: 194398

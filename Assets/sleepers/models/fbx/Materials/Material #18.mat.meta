@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d23f0c7130b7c92469bedc7694e5c4e1
+timeCreated: 1499995575
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95855
+  packageName: Railway sleepers
+  packageVersion: 1.0
+  assetPath: Assets/sleepers/models/fbx/Materials/Material #18.mat
+  uploadId: 194398
