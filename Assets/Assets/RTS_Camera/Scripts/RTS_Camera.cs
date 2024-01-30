@@ -258,7 +258,7 @@ namespace RTS_Cam
         /// </summary>
         private void HeightCalculation()
         {
-            float distanceToGround = DistanceToGround();
+            float distanceToGround = DistanceToGround() - targetOffset.y;
             if(useScrollwheelZooming)
                 zoomPos += ScrollWheel * Time.deltaTime * scrollWheelZoomingSensitivity;
             if (useKeyboardZooming)

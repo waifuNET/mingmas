@@ -6,10 +6,9 @@ using UnityEngine.AI;
 public enum CharacterStatus
 {
     Idle = 0,
-    WalkOre = 1,
+    Walk = 1,
     Mining = 2,
 	Unloading = 3,
-	WalkUnloading = 4
 }
 
 public class CharacterInteraction : MonoBehaviour
@@ -136,7 +135,7 @@ public class CharacterInteraction : MonoBehaviour
                 if (TargetExist())
                 {
                      GoToOre();
-                     characterStatus = CharacterStatus.WalkOre;
+                     characterStatus = CharacterStatus.Walk;
                 }
                 else if (!TargetExist())
                 {
@@ -147,15 +146,15 @@ public class CharacterInteraction : MonoBehaviour
                     if (TargetExist())
                     {
                         GoToOre();
-                        characterStatus = CharacterStatus.WalkOre;
+                        characterStatus = CharacterStatus.Walk;
                     }
                 }
                 else if (InvetoryFull())
                 {
-                    characterStatus = CharacterStatus.WalkUnloading;
+                    characterStatus = CharacterStatus.Walk;
                 }
                 break;
-            case CharacterStatus.WalkOre:
+            case CharacterStatus.Walk:
                 ResetAllTriggers("Walking");
                 if (Arrived())
                 {
@@ -167,14 +166,6 @@ public class CharacterInteraction : MonoBehaviour
                 animator.SetTrigger("Mining");
                 Mining();
                 break;
-            case CharacterStatus.WalkUnloading:
-                ResetAllTriggers("Walking");
-
-                if (Arrived())
-                {
-                    characterStatus = CharacterStatus.Unloading;
-				}
-                break;
             case CharacterStatus.Unloading:
 				UnloadingPoket();
 				characterStatus = CharacterStatus.Idle;
@@ -184,9 +175,10 @@ public class CharacterInteraction : MonoBehaviour
 
     void Mining()
     {
-        if (InvetoryFull()) { characterStatus = CharacterStatus.WalkUnloading; GoToUnloading(); return; }
+        if (InvetoryFull()) { characterStatus = CharacterStatus.Walk; GoToUnloading(); return; }
+        if(oreTarget == null) { characterStatus = CharacterStatus.Idle; return; }
 
-        rockMinigTime -= Time.deltaTime;
+		rockMinigTime -= Time.deltaTime;
         if (rockMinigTime <= 0)
         {
             AddToCharacterInventory();
