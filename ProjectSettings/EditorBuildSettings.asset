@@ -4,5 +4,12 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: b563fe58479edf446a4e5b47006a5dcf
+  - enabled: 1
+    path: Assets/Scenes/StoneCave.unity
+    guid: 824410b94824e5d4bbd48edbf8cff9e7
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
